@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+<body>
+  <a href="../"><button>Go Back</button></a>
+      <h1>Add Student Details</h1>
+     <div class="dddd">
+    <div class="frms">
+    <form  action="" method="post">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Name">
+     <br><br>
+      <input type="email" name="email" placeholder="email">
+      <br><br>
+     
+      <input type="number" name="age" placeholder="Age">
+     <br><br>
+      <input type="number" name="phone" placeholder="PhoneNumber">
+      <br><br>
+      <select name="course" >
+        <option selected disabled>-----select course-------</option>
+        {% for i in courses %}
+             <option value="{{i}}">{{i}}</option>
+
+        {% endfor %}
+        <select>
+
+      <button >Submit</button>
+    </form>
+    </div>
+    </div>
+</body>
+</html>
