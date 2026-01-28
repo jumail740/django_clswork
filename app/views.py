@@ -7,25 +7,28 @@ from .models import *
 
 def index(request):
     if request.user.is_authenticated:  
-        stds= Students.objects.all()
+        stds= Students.objects.filter(uname=request.user.pk)
         return render(request,'index.html',{'stds':stds})
     else:
         return redirect(loginUser)
     
     
 def addstudent(request):
-    courses=Courses.objects.all()
-    if request.method=='POST':
-      name=request.POST['name']
-      email=request.POST['email']
-      age= request.POST['age']
-      phone=request.POST['phone']
-      course= request.POST['course']
-      cname=Courses.objects.get(cname=course)
-      data=Students.objects.create(name=name,email=email,age=age,phone=phone,cname=cname)
-      data.save
-      
-      return redirect(index)
+    
+    if request.user.is_authenticated:
+        courses=Courses.objects.all()
+        if request.method=='POST':
+            name=request.POST['name']
+            email=request.POST['email']
+            age= request.POST['age']
+            phone=request.POST['phone']
+            course= request.POST['course']
+            cname=Courses.objects.get(cname=course)
+            data=Students.objects.create(name=name,email=email,age=age,phone=phone,cname=cname,uname=request.user)
+            data.save
+            return redirect(index)
+    else:
+        return redirect(loginUser)
     return render(request,'addstudent.html',{'courses':courses})
 
 
@@ -60,6 +63,7 @@ def registerUser(request):
             data.save()
         else:
             print("password doesnot match")
+        return redirect(loginUser)
     return render(request,'register.html')
 
 
